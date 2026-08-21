@@ -115,7 +115,7 @@ export const EVENTS: CalendarEvent[] = [
     lane: 'planned',
     startMin: 14 * 60,
     durationMin: 45,
-    title: 'Azos | Rodrigo <> Mateus - Product Manager B2C Policyholder',
+    title: 'Focus time',
     google: true,
   },
   {
