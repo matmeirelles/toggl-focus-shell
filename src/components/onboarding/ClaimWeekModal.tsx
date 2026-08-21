@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { ChevronRight, Sparkles, X } from 'lucide-react'
+import { ChevronRight, Sparkles } from 'lucide-react'
 import { CLAIM_BLOCKS, CLAIM_RATE, type ClaimBlock } from '../../data/claimWeek'
 import { useWeekAssignment } from '../../context/WeekAssignmentContext'
 
@@ -35,10 +35,9 @@ function valueOf(min: number) {
 type ClaimWeekModalProps = {
   onComplete: () => void
   onSeeProject: () => void
-  onDismiss: () => void
 }
 
-export function ClaimWeekModal({ onComplete, onSeeProject, onDismiss }: ClaimWeekModalProps) {
+export function ClaimWeekModal({ onComplete, onSeeProject }: ClaimWeekModalProps) {
   const { setAssignedIds } = useWeekAssignment()
   const [view, setView] = useState<View>('claim')
   const [rows, setRows] = useState<Row[]>(() =>
@@ -103,16 +102,6 @@ export function ClaimWeekModal({ onComplete, onSeeProject, onDismiss }: ClaimWee
         aria-labelledby="claim-week-title"
         className="relative flex max-h-[85vh] w-[min(900px,94vw)] flex-col overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] shadow-[0_24px_80px_rgb(0_0_0_/_55%)] min-[720px]:h-[min(85vh,760px)] min-[720px]:flex-row"
       >
-        {/* TEST: remove dismiss before submission */}
-        <button
-          type="button"
-          aria-label="Dismiss"
-          onClick={onDismiss}
-          className="absolute top-3 right-3 z-20 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
-        >
-          <X size={18} />
-        </button>
-
         <aside
           className={`flex shrink-0 flex-col bg-[linear-gradient(180deg,#2a2208_0%,#1a1a1a_52%)] transition-all duration-300 ease-out ${
             reviewing
@@ -143,7 +132,7 @@ export function ClaimWeekModal({ onComplete, onSeeProject, onDismiss }: ClaimWee
               : 'pointer-events-none max-h-0 overflow-hidden opacity-0 min-[720px]:max-h-none min-[720px]:w-0 min-[720px]:border-l-0 min-[720px]:opacity-0'
           }`}
         >
-          <header className="shrink-0 px-6 pt-6 pr-12 pb-4 min-[720px]:px-7 min-[720px]:pt-7">
+          <header className="shrink-0 px-6 pt-6 pb-4 min-[720px]:px-7 min-[720px]:pt-7">
             <h1 id="claim-week-title" className="text-[18px] leading-6 font-semibold text-white">
               Here&apos;s your Acme week — rebuilt from your calendar
             </h1>

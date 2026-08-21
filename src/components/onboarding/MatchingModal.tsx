@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { X } from 'lucide-react'
 
 type MatchingModalProps = {
   companyName: string
   onComplete: () => void
-  onDismiss: () => void
 }
 
 function CalendarScan() {
@@ -47,7 +45,7 @@ function CalendarScan() {
   )
 }
 
-export function MatchingModal({ companyName, onComplete, onDismiss }: MatchingModalProps) {
+export function MatchingModal({ companyName, onComplete }: MatchingModalProps) {
   const steps = [
     'Reading your calendar…',
     `Matching blocks to ${companyName}…`,
@@ -82,15 +80,6 @@ export function MatchingModal({ companyName, onComplete, onDismiss }: MatchingMo
         aria-live="polite"
         className="relative w-full max-w-[748px] rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-16 shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
       >
-        {/* TEST: remove dismiss before submission */}
-        <button
-          type="button"
-          aria-label="Dismiss"
-          onClick={onDismiss}
-          className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
-        >
-          <X size={18} />
-        </button>
         <div className="flex flex-col items-center">
           <CalendarScan />
           <h1

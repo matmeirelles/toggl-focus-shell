@@ -34,12 +34,6 @@ function AppShellInner() {
   const { setAssignedIds } = useWeekAssignment()
   const onTimer = location.pathname === '/timer'
 
-  const dismissModals = () => {
-    sessionStorage.removeItem(WELCOME_MODAL_KEY)
-    sessionStorage.removeItem(PROJECT_MODAL_KEY)
-    setModal('none')
-  }
-
   const openWelcome = () => {
     sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
     sessionStorage.removeItem(PROJECT_MODAL_KEY)
@@ -62,7 +56,6 @@ function AppShellInner() {
             sessionStorage.setItem(PROJECT_MODAL_KEY, '1')
             setModal('project')
           }}
-          onDismiss={dismissModals}
         />
       ) : null}
       {onTimer && modal === 'project' ? (
@@ -72,14 +65,12 @@ function AppShellInner() {
             setCompanyName(project.client || project.name)
             setModal('matching')
           }}
-          onDismiss={dismissModals}
         />
       ) : null}
       {onTimer && modal === 'matching' ? (
         <MatchingModal
           companyName={companyName}
           onComplete={() => setModal('claim')}
-          onDismiss={dismissModals}
         />
       ) : null}
       {onTimer && modal === 'claim' ? (
@@ -89,7 +80,6 @@ function AppShellInner() {
             setModal('none')
             navigate('/projects/acme')
           }}
-          onDismiss={dismissModals}
         />
       ) : null}
     </div>

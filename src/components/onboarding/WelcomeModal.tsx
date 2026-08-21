@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { X } from 'lucide-react'
 import { LaptopPlayIllustration } from './Illustrations'
 
 export const WELCOME_MODAL_KEY = 'toggl-welcome-modal'
@@ -14,10 +13,9 @@ const USES = [
 
 type WelcomeModalProps = {
   onComplete: () => void
-  onDismiss: () => void
 }
 
-export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
+export function WelcomeModal({ onComplete }: WelcomeModalProps) {
   const [other, setOther] = useState('')
 
   useEffect(() => {
@@ -36,15 +34,6 @@ export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
         aria-labelledby="welcome-modal-title"
         className="relative w-full max-w-[748px] overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-10 shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
       >
-        {/* TEST: remove dismiss before submission */}
-        <button
-          type="button"
-          aria-label="Dismiss"
-          onClick={onDismiss}
-          className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
-        >
-          <X size={18} />
-        </button>
         <h1
           id="welcome-modal-title"
           className="text-center text-[24px] leading-8 font-bold text-white"
