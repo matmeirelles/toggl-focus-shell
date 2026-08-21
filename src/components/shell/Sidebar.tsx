@@ -17,6 +17,7 @@ import {
   TreePalm,
   User,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { NavItem, SectionLabel } from './NavItem'
 import { TogglMark } from '../icons/TogglMark'
 
@@ -38,7 +39,11 @@ function RailButton({
   )
 }
 
-export function Sidebar() {
+type SidebarProps = {
+  onOpenWelcome: () => void
+}
+
+export function Sidebar({ onOpenWelcome }: SidebarProps) {
   return (
     <aside
       className="flex h-full shrink-0 border-r border-toggl-stroke bg-toggl-sidebar text-toggl-text"
@@ -105,8 +110,17 @@ export function Sidebar() {
         </nav>
 
         <div className="mt-auto flex flex-col gap-1 px-2 pb-3">
-          <div
-            className="rounded-lg border border-toggl-stroke p-4"
+          <Link
+            to="/"
+            className="nav-transition flex h-8 w-[184px] items-center rounded-lg px-2 text-[14px] font-medium text-toggl-muted hover:bg-toggl-app hover:text-toggl-hover"
+          >
+            Restart onboarding
+          </Link>
+
+          <button
+            type="button"
+            onClick={onOpenWelcome}
+            className="rounded-lg border border-toggl-stroke p-4 text-left"
             style={{ boxShadow: 'var(--toggl-shadow-raised)' }}
           >
             <div className="mb-2 flex items-center justify-between text-[13px] font-medium">
@@ -116,7 +130,7 @@ export function Sidebar() {
             <div className="h-1.5 overflow-hidden rounded-full bg-toggl-stroke">
               <div className="h-full w-2/5 rounded-full bg-toggl-accent" />
             </div>
-          </div>
+          </button>
 
           <button
             type="button"
