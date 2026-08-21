@@ -351,7 +351,7 @@ function ValuePanel({
       <p className="mt-3 text-[12px] leading-4 text-[#8a8a8a]">
         {reviewing
           ? 'Rebuilt from your calendar. No timesheet.'
-          : 'Estimated from your calendar. Track live to keep it exact.'}
+          : 'Planned from your calendar. Track live to keep it exact.'}
       </p>
 
       <div className={`mt-auto flex flex-col gap-3 ${reviewing ? 'pt-6' : 'pt-8'}`}>
