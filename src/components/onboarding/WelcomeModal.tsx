@@ -18,7 +18,6 @@ type WelcomeModalProps = {
 }
 
 export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
-  const [selected, setSelected] = useState<string[]>([])
   const [other, setOther] = useState('')
 
   useEffect(() => {
@@ -28,12 +27,6 @@ export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
-
-  const toggle = (label: string) => {
-    setSelected((current) =>
-      current.includes(label) ? current.filter((item) => item !== label) : [...current, label],
-    )
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-6">
@@ -61,23 +54,16 @@ export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
         <p className="mt-2 text-center text-[14px] text-[#a1a1a1]">Select all that apply</p>
 
         <div className="mx-auto mt-7 flex w-full max-w-[560px] flex-col gap-2.5">
-          {USES.map((label) => {
-            const active = selected.includes(label)
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={() => toggle(label)}
-                className={`h-12 rounded-lg border text-[15px] font-medium text-white ${
-                  active
-                    ? 'border-[#E57CD8] bg-[#E57CD8]/10'
-                    : 'border-[#4a4a4a] bg-transparent hover:border-[#7a7a7a]'
-                }`}
-              >
-                {label}
-              </button>
-            )
-          })}
+          {USES.map((label) => (
+            <button
+              key={label}
+              type="button"
+              onClick={onComplete}
+              className="h-12 rounded-lg border border-[#4a4a4a] bg-transparent text-[15px] font-medium text-white hover:border-[#E57CD8] hover:bg-[#E57CD8]/10"
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         <div className="mx-auto mt-5 w-full max-w-[560px]">
@@ -87,6 +73,12 @@ export function WelcomeModal({ onComplete, onDismiss }: WelcomeModalProps) {
           <input
             value={other}
             onChange={(event) => setOther(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && other.trim()) {
+                event.preventDefault()
+                onComplete()
+              }
+            }}
             placeholder="Describe..."
             className="h-11 w-full rounded-lg border border-[#5c5c5c] bg-transparent px-3 text-[14px] text-white outline-none placeholder:text-[#8a8a8a] focus:border-[#E57CD8]"
           />
