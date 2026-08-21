@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, Folder, Plus } from 'lucide-react'
+import { ChevronDown, Folder, Plus, X } from 'lucide-react'
 
 export const PROJECT_MODAL_KEY = 'toggl-project-modal'
 
@@ -12,9 +12,10 @@ const fieldBox =
 
 type ProjectModalProps = {
   onComplete: () => void
+  onDismiss: () => void
 }
 
-export function ProjectModal({ onComplete }: ProjectModalProps) {
+export function ProjectModal({ onComplete, onDismiss }: ProjectModalProps) {
   const [projectName, setProjectName] = useState('')
   const [clientQuery, setClientQuery] = useState('')
   const [clients, setClients] = useState(EXISTING_CLIENTS)
@@ -78,6 +79,15 @@ export function ProjectModal({ onComplete }: ProjectModalProps) {
         aria-labelledby="project-modal-title"
         className="relative w-full max-w-[748px] rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-10 shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
       >
+        {/* TEST: remove dismiss before submission */}
+        <button
+          type="button"
+          aria-label="Dismiss"
+          onClick={onDismiss}
+          className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
+        >
+          <X size={18} />
+        </button>
         <h1
           id="project-modal-title"
           className="text-center text-[24px] leading-8 font-bold text-white"

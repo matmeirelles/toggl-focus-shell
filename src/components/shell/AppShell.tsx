@@ -20,6 +20,12 @@ export function AppShell() {
   const [modal, setModal] = useState<ShellModal>(initialModal)
   const onTimer = location.pathname === '/timer'
 
+  const dismissModals = () => {
+    sessionStorage.removeItem(WELCOME_MODAL_KEY)
+    sessionStorage.removeItem(PROJECT_MODAL_KEY)
+    setModal('none')
+  }
+
   const openWelcome = () => {
     sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
     sessionStorage.removeItem(PROJECT_MODAL_KEY)
@@ -41,6 +47,7 @@ export function AppShell() {
             sessionStorage.setItem(PROJECT_MODAL_KEY, '1')
             setModal('project')
           }}
+          onDismiss={dismissModals}
         />
       ) : null}
       {onTimer && modal === 'project' ? (
@@ -49,6 +56,7 @@ export function AppShell() {
             sessionStorage.removeItem(PROJECT_MODAL_KEY)
             setModal('none')
           }}
+          onDismiss={dismissModals}
         />
       ) : null}
     </div>
