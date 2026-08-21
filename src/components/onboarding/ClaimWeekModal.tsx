@@ -361,7 +361,7 @@ function ValuePanel({
             onClick={onConfirm}
             className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
           >
-            Confirm → See my week
+            Confirm
           </button>
         ) : (
           <>
