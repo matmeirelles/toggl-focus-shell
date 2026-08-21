@@ -280,21 +280,21 @@ function ValuePanel({
     <div
       className={`flex h-full min-h-0 w-full flex-col ${reviewing ? '' : 'max-w-[460px] text-center'}`}
     >
-      <p className="text-[11px] font-semibold tracking-[0.14em] text-[#8a8a8a] uppercase">
-        Last 7 days · Acme
+      <p className={`font-semibold text-white ${reviewing ? 'text-[22px] leading-7' : 'text-[24px] leading-8'}`}>
+        Acme
       </p>
-      <p className="mt-1.5 text-[12px] text-[#8a8a8a]">
-        {SCAN_BLOCKS} blocks · {SCAN_HOURS}h found in your calendar
+      <p className="mt-1 text-[14px] text-[#a1a1a1]">
+        Acme Inc. <span className="text-[#6B7280]">·</span>{' '}
+        <span className="tabular-nums text-[#F5B301]">$90/hr</span>
       </p>
 
-      <div className="mt-4 rounded-xl border border-[#3c3c3c] bg-black/25 px-3 py-2.5 text-left">
-        <p className="text-[12px] text-[#a1a1a1]">
-          Project: <span className="text-white">Acme</span>
+      <div className="mt-4 rounded-xl border border-[#3c3c3c] bg-black/20 px-3 py-2.5 text-left">
+        <p className="text-[12px] font-medium text-[#cfcfcf]">Last 7 days mapped</p>
+        <p className="mt-1 text-[12px] text-[#8a8a8a]">
+          {SCAN_BLOCKS} blocks
           <span className="text-[#6B7280]"> · </span>
-          Client: <span className="text-white">Acme Inc.</span>
+          {SCAN_HOURS}h found
         </p>
-        <p className="mt-1 text-[20px] leading-6 font-bold tabular-nums text-[#F5B301]">$90/hr</p>
-        <p className="mt-0.5 text-[11px] text-[#8a8a8a]">Rate · turns hours into money</p>
       </div>
 
       <p
