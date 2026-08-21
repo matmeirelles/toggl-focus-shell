@@ -5,10 +5,10 @@ import {
   HourglassIllustration,
   OutlookIcon,
   PlaneIllustration,
-  ProjectCardsIllustration,
   TeamIllustration,
 } from '../components/onboarding/Illustrations'
 import { WELCOME_MODAL_KEY } from '../components/onboarding/WelcomeModal'
+import { PROJECT_MODAL_KEY } from '../components/onboarding/ProjectModal'
 
 const TEAM_SIZES = [
   'Just me',
@@ -76,15 +76,16 @@ export function OnboardingPage() {
   const [step, setStep] = useState(0)
   const [team, setTeam] = useState<string | null>(null)
   const [orgName, setOrgName] = useState('Mateus Freelancer')
-  const [projectName, setProjectName] = useState('')
   const [autoTrack, setAutoTrack] = useState(true)
 
   const goApp = () => {
     sessionStorage.removeItem(WELCOME_MODAL_KEY)
+    sessionStorage.removeItem(PROJECT_MODAL_KEY)
     navigate('/timer')
   }
   const goAppWithWelcome = () => {
     sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
+    sessionStorage.removeItem(PROJECT_MODAL_KEY)
     navigate('/timer')
   }
 
@@ -161,37 +162,6 @@ export function OnboardingPage() {
           ) : null}
 
           {step === 2 ? (
-            <div className="flex flex-col items-center">
-              <h1 className="text-center text-[28px] font-bold text-white">
-                What&apos;s your team&apos;s first project?
-              </h1>
-              <p className="mt-3 max-w-[560px] text-center text-[15px] leading-6 text-[#a1a1a1]">
-                Add a project so your team can start tracking right away. You can add more later.
-              </p>
-              <input
-                value={projectName}
-                onChange={(event) => setProjectName(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' && projectName.trim()) {
-                    event.preventDefault()
-                    setStep(3)
-                  }
-                }}
-                placeholder="e.g. Client project, Marketing campaign"
-                className="mt-8 h-12 w-full max-w-[560px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none placeholder:text-[#8a8a8a] focus:border-[#E57CD8]"
-              />
-              <div className="mt-8">
-                <PinkButton disabled={!projectName.trim()} onClick={() => setStep(3)}>
-                  Next
-                </PinkButton>
-              </div>
-              <div className="pointer-events-none absolute right-6 bottom-4">
-                <ProjectCardsIllustration />
-              </div>
-            </div>
-          ) : null}
-
-          {step === 3 ? (
             <div className="flex flex-col items-center">
               <h1 className="max-w-[640px] text-center text-[26px] leading-8 font-bold text-white">
                 Sync your team&apos;s calendars for seamless time tracking

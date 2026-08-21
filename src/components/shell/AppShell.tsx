@@ -3,18 +3,27 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 import { WelcomeModal, WELCOME_MODAL_KEY } from '../onboarding/WelcomeModal'
+import { ProjectModal, PROJECT_MODAL_KEY } from '../onboarding/ProjectModal'
+
+type ShellModal = 'none' | 'welcome' | 'project'
+
+function initialModal(): ShellModal {
+  if (sessionStorage.getItem(WELCOME_MODAL_KEY) === '1') return 'welcome'
+  if (sessionStorage.getItem(PROJECT_MODAL_KEY) === '1') return 'project'
+  return 'none'
+}
 
 export function AppShell() {
   const location = useLocation()
   const navigate = useNavigate()
   const hideTopBar = location.pathname.startsWith('/reports')
-  const [welcomeOpen, setWelcomeOpen] = useState(
-    () => sessionStorage.getItem(WELCOME_MODAL_KEY) === '1',
-  )
+  const [modal, setModal] = useState<ShellModal>(initialModal)
+  const onTimer = location.pathname === '/timer'
 
   const openWelcome = () => {
     sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
-    setWelcomeOpen(true)
+    sessionStorage.removeItem(PROJECT_MODAL_KEY)
+    setModal('welcome')
     if (location.pathname !== '/timer') navigate('/timer')
   }
 
@@ -25,11 +34,20 @@ export function AppShell() {
         {hideTopBar ? null : <TopBar />}
         <Outlet />
       </div>
-      {welcomeOpen && location.pathname === '/timer' ? (
+      {onTimer && modal === 'welcome' ? (
         <WelcomeModal
           onComplete={() => {
             sessionStorage.removeItem(WELCOME_MODAL_KEY)
-            setWelcomeOpen(false)
+            sessionStorage.setItem(PROJECT_MODAL_KEY, '1')
+            setModal('project')
+          }}
+        />
+      ) : null}
+      {onTimer && modal === 'project' ? (
+        <ProjectModal
+          onComplete={() => {
+            sessionStorage.removeItem(PROJECT_MODAL_KEY)
+            setModal('none')
           }}
         />
       ) : null}
