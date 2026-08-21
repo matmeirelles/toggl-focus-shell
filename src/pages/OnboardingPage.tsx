@@ -171,6 +171,12 @@ export function OnboardingPage() {
               <input
                 value={projectName}
                 onChange={(event) => setProjectName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && projectName.trim()) {
+                    event.preventDefault()
+                    setStep(3)
+                  }
+                }}
                 placeholder="e.g. Client project, Marketing campaign"
                 className="mt-8 h-12 w-full max-w-[460px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none placeholder:text-[#8a8a8a] focus:border-[#E57CD8]"
               />
