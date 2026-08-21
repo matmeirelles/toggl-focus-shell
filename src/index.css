@@ -127,3 +127,46 @@ input {
     radial-gradient(circle at 80% 78%, #1a1a1a 0 90px, transparent 91px),
     radial-gradient(circle at 18% 84%, #171717 0 70px, transparent 71px);
 }
+
+@keyframes matching-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes calendar-scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(72px);
+  }
+}
+
+@keyframes calendar-block-in {
+  0%,
+  35% {
+    opacity: 0.18;
+  }
+  55%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.matching-step {
+  animation: matching-fade 0.28s ease-out;
+}
+
+.calendar-scan-line {
+  animation: calendar-scan 1.15s ease-in-out infinite alternate;
+}
+
+.calendar-block-match {
+  animation: calendar-block-in 2.4s ease-in-out infinite;
+}

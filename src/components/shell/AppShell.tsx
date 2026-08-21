@@ -4,8 +4,9 @@ import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 import { WelcomeModal, WELCOME_MODAL_KEY } from '../onboarding/WelcomeModal'
 import { ProjectModal, PROJECT_MODAL_KEY } from '../onboarding/ProjectModal'
+import { MatchingModal } from '../onboarding/MatchingModal'
 
-type ShellModal = 'none' | 'welcome' | 'project'
+type ShellModal = 'none' | 'welcome' | 'project' | 'matching'
 
 function initialModal(): ShellModal {
   if (sessionStorage.getItem(WELCOME_MODAL_KEY) === '1') return 'welcome'
@@ -18,6 +19,7 @@ export function AppShell() {
   const navigate = useNavigate()
   const hideTopBar = location.pathname.startsWith('/reports')
   const [modal, setModal] = useState<ShellModal>(initialModal)
+  const [companyName, setCompanyName] = useState('your project')
   const onTimer = location.pathname === '/timer'
 
   const dismissModals = () => {
@@ -52,10 +54,18 @@ export function AppShell() {
       ) : null}
       {onTimer && modal === 'project' ? (
         <ProjectModal
-          onComplete={() => {
+          onComplete={(project) => {
             sessionStorage.removeItem(PROJECT_MODAL_KEY)
-            setModal('none')
+            setCompanyName(project.client || project.name)
+            setModal('matching')
           }}
+          onDismiss={dismissModals}
+        />
+      ) : null}
+      {onTimer && modal === 'matching' ? (
+        <MatchingModal
+          companyName={companyName}
+          onComplete={() => setModal('none')}
           onDismiss={dismissModals}
         />
       ) : null}

@@ -11,7 +11,7 @@ const fieldBox =
   'flex h-11 w-full items-center rounded-lg border border-[#5c5c5c] bg-transparent px-3 text-[14px] text-white outline-none focus-within:border-[#E57CD8]'
 
 type ProjectModalProps = {
-  onComplete: () => void
+  onComplete: (project: { name: string; client: string }) => void
   onDismiss: () => void
 }
 
@@ -68,7 +68,10 @@ export function ProjectModal({ onComplete, onDismiss }: ProjectModalProps) {
 
   const submit = () => {
     if (!canContinue) return
-    onComplete()
+    onComplete({
+      name: projectName.trim(),
+      client: clientQuery.trim(),
+    })
   }
 
   return (
@@ -92,7 +95,7 @@ export function ProjectModal({ onComplete, onDismiss }: ProjectModalProps) {
           id="project-modal-title"
           className="text-center text-[24px] leading-8 font-bold text-white"
         >
-          Let&apos;s create our first project
+          Let&apos;s create your first project
         </h1>
         <p className="mt-2 text-center text-[14px] leading-6 text-[#a1a1a1]">
           Add a project so your team can start tracking right away. You can add more later.
