@@ -98,3 +98,21 @@ export function OutlookIcon() {
     </svg>
   )
 }
+
+export function LaptopPlayIllustration() {
+  return (
+    <svg width="150" height="120" viewBox="0 0 150 120" fill="none" aria-hidden="true">
+      <rect x="28" y="78" width="94" height="10" rx="3" fill="#2a2438" />
+      <path d="M22 84h106l8 14H14l8-14Z" fill="#3a3450" />
+      <rect x="40" y="28" width="70" height="50" rx="4" fill="#2a2038" />
+      <rect x="46" y="34" width="58" height="38" rx="2" fill="#1a1524" />
+      <circle cx="75" cy="52" r="22" fill="#c45aa8" />
+      <circle cx="75" cy="52" r="18" fill="#E57CD8" />
+      <path d="M70 44v16l14-8-14-8Z" fill="white" />
+      <circle cx="102" cy="30" r="4" fill="#E57CD8" />
+      <circle cx="112" cy="42" r="3" fill="#6a5a78" />
+      <circle cx="98" cy="22" r="2.5" fill="#8a6a9a" />
+    </svg>
+  )
+}
+

@@ -8,6 +8,7 @@ import {
   ProjectCardsIllustration,
   TeamIllustration,
 } from '../components/onboarding/Illustrations'
+import { WELCOME_MODAL_KEY } from '../components/onboarding/WelcomeModal'
 
 const TEAM_SIZES = [
   'Just me',
@@ -78,7 +79,14 @@ export function OnboardingPage() {
   const [projectName, setProjectName] = useState('')
   const [autoTrack, setAutoTrack] = useState(true)
 
-  const goApp = () => navigate('/timer')
+  const goApp = () => {
+    sessionStorage.removeItem(WELCOME_MODAL_KEY)
+    navigate('/timer')
+  }
+  const goAppWithWelcome = () => {
+    sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
+    navigate('/timer')
+  }
 
   return (
     <div className="onboard-bg relative flex h-full min-h-full flex-col overflow-hidden">
@@ -185,7 +193,7 @@ export function OnboardingPage() {
               <div className="mt-8 flex w-full max-w-[520px] flex-col gap-3">
                 <button
                   type="button"
-                  onClick={goApp}
+                  onClick={goAppWithWelcome}
                   className="flex items-center gap-4 rounded-xl border border-[#3a3a3a] px-4 py-4 text-left hover:border-[#6a6a6a]"
                 >
                   <GoogleCalendarIcon />
@@ -198,7 +206,7 @@ export function OnboardingPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={goApp}
+                  onClick={goAppWithWelcome}
                   className="flex items-center gap-4 rounded-xl border border-[#3a3a3a] px-4 py-4 text-left hover:border-[#6a6a6a]"
                 >
                   <OutlookIcon />
@@ -234,7 +242,7 @@ export function OnboardingPage() {
                 </div>
               </div>
               <div className="mt-8">
-                <GhostButton onClick={goApp}>No, thanks</GhostButton>
+                <GhostButton onClick={goAppWithWelcome}>No, thanks</GhostButton>
               </div>
               <div className="pointer-events-none absolute right-4 bottom-3">
                 <HourglassIllustration />
