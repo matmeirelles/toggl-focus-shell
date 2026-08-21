@@ -88,7 +88,7 @@ export function Sidebar() {
 
         <nav className="flex flex-1 flex-col px-2">
           <SectionLabel>Track</SectionLabel>
-          <NavItem icon={Clock3} label="Timer" to="/" />
+          <NavItem icon={Clock3} label="Timer" to="/timer" />
 
           <SectionLabel>Analyze</SectionLabel>
           <NavItem icon={ClipboardList} label="Reports" to="/reports" />

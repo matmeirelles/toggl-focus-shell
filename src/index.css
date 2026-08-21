@@ -118,3 +118,12 @@ input {
   transition-duration: 150ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.onboard-bg {
+  background-color: #0e0e0e;
+  background-image:
+    radial-gradient(circle at 12% 18%, #1b1b1b 0 80px, transparent 81px),
+    radial-gradient(circle at 88% 22%, #191919 0 110px, transparent 111px),
+    radial-gradient(circle at 80% 78%, #1a1a1a 0 90px, transparent 91px),
+    radial-gradient(circle at 18% 84%, #171717 0 70px, transparent 71px);
+}

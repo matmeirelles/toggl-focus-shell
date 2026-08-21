@@ -13,7 +13,9 @@ export function NavItem({ icon: Icon, label, to, paid = false }: NavItemProps) {
   const location = useLocation()
   const active =
     to != null &&
-    (to === '/' ? location.pathname === '/' : location.pathname.startsWith(to))
+    (to === '/timer'
+      ? location.pathname === '/timer'
+      : location.pathname.startsWith(to))
 
   const className = [
     'nav-transition flex h-8 w-[184px] items-center gap-3 rounded-lg px-2 text-[14px] leading-[20px]',
