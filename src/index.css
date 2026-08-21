@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --toggl-app-bg: #1c1a1c;
+  --toggl-sidebar-bg: #000000;
+  --toggl-surface-secondary: #131213;
+  --toggl-surface-elevated: #1c1a1c;
+  --toggl-surface-active: #371f34;
+  --toggl-surface-on-hover: rgb(255 255 255 / 12%);
+
+  --toggl-text-primary: #ffffff;
+  --toggl-text-secondary: #b3b0b2;
+  --toggl-text-disabled: #575456;
+  --toggl-text-inverted: #131213;
+  --toggl-text-hover: #cfcdcf;
+
+  --toggl-accent: #c282b9;
+  --toggl-accent-hover: #dca7d3;
+  --toggl-accent-active: #eccce6;
+  --toggl-accent-muted-bg: #371f34;
+  --toggl-accent-muted-border: #632e5c;
+
+  --toggl-stroke-primary: #3c393b;
+  --toggl-stroke-secondary: #575456;
+  --toggl-stroke-lane-split: #1c1a1c;
+
+  --toggl-event-teal: #74b1b6;
+  --toggl-event-teal-muted: #122e30;
+  --toggl-event-teal-border: #19484b;
+  --toggl-event-generic: #1c1a1c;
+  --toggl-event-generic-border: #3c393b;
+
+  --toggl-shadow-sidebar: 0 4px 16px rgb(0 0 0 / 50%);
+  --toggl-shadow-raised: 0 2px 6px rgb(0 0 0 / 39%);
+
+  --toggl-sidebar-rail: 48px;
+  --toggl-sidebar-nav: 200px;
+  --toggl-sidebar-total: 249px;
+  --toggl-topbar-height: 64px;
+  --toggl-hour-row-height: 60px;
+  --toggl-time-column-width: 72px;
+  --toggl-radius-sm: 4px;
+  --toggl-radius-md: 8px;
+}
+
+@theme inline {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-toggl-app: var(--toggl-app-bg);
+  --color-toggl-sidebar: var(--toggl-sidebar-bg);
+  --color-toggl-secondary: var(--toggl-surface-secondary);
+  --color-toggl-elevated: var(--toggl-surface-elevated);
+  --color-toggl-active: var(--toggl-surface-active);
+  --color-toggl-text: var(--toggl-text-primary);
+  --color-toggl-muted: var(--toggl-text-secondary);
+  --color-toggl-disabled: var(--toggl-text-disabled);
+  --color-toggl-inverted: var(--toggl-text-inverted);
+  --color-toggl-hover: var(--toggl-text-hover);
+  --color-toggl-accent: var(--toggl-accent);
+  --color-toggl-accent-hover: var(--toggl-accent-hover);
+  --color-toggl-stroke: var(--toggl-stroke-primary);
+  --color-toggl-stroke-strong: var(--toggl-stroke-secondary);
+  --color-toggl-lane: var(--toggl-stroke-lane-split);
+  --color-toggl-event: var(--toggl-event-teal);
+  --color-toggl-event-muted: var(--toggl-event-teal-muted);
+  --color-toggl-event-border: var(--toggl-event-teal-border);
+  --color-toggl-generic: var(--toggl-event-generic);
+  --color-toggl-generic-border: var(--toggl-event-generic-border);
+  --color-toggl-badge: var(--toggl-accent-muted-border);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--toggl-app-bg);
+  color: var(--toggl-text-primary);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+.calendar-hour-lines {
+  background-image: repeating-linear-gradient(
+    to top,
+    rgb(60, 57, 59) 0px,
+    rgb(60, 57, 59) 1px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0) 60px
+  );
+}
+
+.calendar-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.calendar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.calendar-scroll::-webkit-scrollbar-thumb {
+  background: #3c393b;
+  border-radius: 8px;
+}
+
+.nav-transition {
+  transition-property: color, background-color, border-color, fill, stroke;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
