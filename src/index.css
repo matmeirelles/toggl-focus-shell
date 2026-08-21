@@ -24,9 +24,12 @@
   --toggl-stroke-secondary: #575456;
   --toggl-stroke-lane-split: #1c1a1c;
 
-  --toggl-event-teal: #74b1b6;
-  --toggl-event-teal-muted: #122e30;
-  --toggl-event-teal-border: #19484b;
+  --toggl-event-teal: #2dd4bf;
+  --toggl-event-teal-muted: #12332e;
+  --toggl-event-teal-border: #1a5c54;
+  --toggl-event-yellow: #e6c46a;
+  --toggl-event-yellow-muted: #2a2410;
+  --toggl-event-yellow-border: #8a7030;
   --toggl-event-generic: #1c1a1c;
   --toggl-event-generic-border: #3c393b;
 
@@ -64,6 +67,9 @@
   --color-toggl-event: var(--toggl-event-teal);
   --color-toggl-event-muted: var(--toggl-event-teal-muted);
   --color-toggl-event-border: var(--toggl-event-teal-border);
+  --color-toggl-event-yellow: var(--toggl-event-yellow);
+  --color-toggl-event-yellow-muted: var(--toggl-event-yellow-muted);
+  --color-toggl-event-yellow-border: var(--toggl-event-yellow-border);
   --color-toggl-generic: var(--toggl-event-generic);
   --color-toggl-generic-border: var(--toggl-event-generic-border);
   --color-toggl-badge: var(--toggl-accent-muted-border);

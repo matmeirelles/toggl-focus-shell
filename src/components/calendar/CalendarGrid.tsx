@@ -13,12 +13,16 @@ import {
 import { EventCard } from './EventCard'
 import { CurrentTimeMarker } from './CurrentTimeMarker'
 import { FeatureSlot } from '../../feature/Slot'
+import { useWeekAssignment } from '../../context/WeekAssignmentContext'
 
 export function CalendarGrid() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [now, setNow] = useState(() => getNowMarker())
   const todayIndex = getTodayIndex()
   const highlightedDay = todayIndex >= 0 ? todayIndex : 2
+  const { assignedIds } = useWeekAssignment()
+  const isAssigned = (event: (typeof EVENTS)[number]) =>
+    assignedIds.has(event.id) || Boolean(event.assignWith && assignedIds.has(event.assignWith))
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: INITIAL_SCROLL_TOP })
@@ -125,14 +129,14 @@ export function CalendarGrid() {
               <div className="absolute inset-y-0 left-0 w-1/2 border-r border-toggl-lane">
                 {EVENTS.filter((event) => event.dayIndex === index && event.lane === 'logged').map(
                   (event) => (
-                    <EventCard key={event.id} event={event} />
+                    <EventCard key={event.id} event={event} assigned={isAssigned(event)} />
                   ),
                 )}
               </div>
               <div className="absolute inset-y-0 right-0 w-1/2 bg-toggl-secondary/50">
                 {EVENTS.filter((event) => event.dayIndex === index && event.lane === 'planned').map(
                   (event) => (
-                    <EventCard key={event.id} event={event} />
+                    <EventCard key={event.id} event={event} assigned={isAssigned(event)} />
                   ),
                 )}
               </div>

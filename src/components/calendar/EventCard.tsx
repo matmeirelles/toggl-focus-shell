@@ -3,15 +3,18 @@ import type { CalendarEvent } from '../../data/mockCalendar'
 import { formatDuration } from '../../data/mockCalendar'
 import { GoogleG } from '../icons/GoogleG'
 
-export function EventCard({ event }: { event: CalendarEvent }) {
+export function EventCard({ event, assigned = false }: { event: CalendarEvent; assigned?: boolean }) {
   const short = event.durationMin < 30
-  const isGoogleLogged = event.google && (event.lane === 'logged' || event.syncedLight)
-  const isGooglePlanned = event.google && event.lane === 'planned' && !event.syncedLight
+  const filled = event.lane === 'logged' || Boolean(event.syncedLight)
 
-  const surface = isGoogleLogged
-    ? 'bg-toggl-event text-toggl-inverted border-toggl-event-border'
-    : isGooglePlanned
-      ? 'bg-toggl-event-muted text-toggl-event border-toggl-event-border'
+  const surface = assigned
+    ? filled
+      ? 'bg-toggl-event-yellow text-toggl-inverted border-toggl-event-yellow-border'
+      : 'bg-toggl-event-yellow-muted text-toggl-event-yellow border-toggl-event-yellow-border'
+    : event.google
+      ? filled
+        ? 'bg-toggl-event text-toggl-inverted border-toggl-event-border'
+        : 'bg-toggl-event-muted text-toggl-event border-toggl-event-border'
       : 'bg-toggl-generic text-toggl-text border-toggl-generic-border hover:border-toggl-stroke-strong'
 
   const left = event.leftPct ?? 0
@@ -29,7 +32,7 @@ export function EventCard({ event }: { event: CalendarEvent }) {
       }}
     >
       <div
-        className={`group relative h-full overflow-hidden rounded-lg border ${surface}`}
+        className={`group relative h-full overflow-hidden rounded-lg border transition-colors duration-200 ${surface}`}
         style={{ padding: short ? '1px 6px' : '2px 6px' }}
       >
         <div className="flex items-start justify-between gap-1">

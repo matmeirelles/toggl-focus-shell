@@ -20,22 +20,23 @@ export type CalendarEvent = {
   leftPct?: number
   widthPct?: number
   zIndex?: number
+  assignWith?: string
 }
 
 export const WEEK_LABEL = 'This week • W34'
 
 export const WEEK_DAYS: CalendarDay[] = [
-  { date: 17, weekday: 'Mon', iso: '2026-08-17', loggedLabel: '3h 5m', plannedLabel: '-' },
-  { date: 18, weekday: 'Tue', iso: '2026-08-18', loggedLabel: '1h 56m', plannedLabel: '-' },
-  { date: 19, weekday: 'Wed', iso: '2026-08-19', loggedLabel: '2h 5m', plannedLabel: '2h 5m' },
-  { date: 20, weekday: 'Thu', iso: '2026-08-20', loggedLabel: '-', plannedLabel: '4h 30m' },
-  { date: 21, weekday: 'Fri', iso: '2026-08-21', loggedLabel: '-', plannedLabel: '1h 30m' },
+  { date: 17, weekday: 'Mon', iso: '2026-08-17', loggedLabel: '3h 30m', plannedLabel: '-' },
+  { date: 18, weekday: 'Tue', iso: '2026-08-18', loggedLabel: '4h 26m', plannedLabel: '-' },
+  { date: 19, weekday: 'Wed', iso: '2026-08-19', loggedLabel: '2h 30m', plannedLabel: '1h' },
+  { date: 20, weekday: 'Thu', iso: '2026-08-20', loggedLabel: '-', plannedLabel: '8h' },
+  { date: 21, weekday: 'Fri', iso: '2026-08-21', loggedLabel: '-', plannedLabel: '2h' },
 ]
 
-export const LOGGED_TOTAL = '7h 6m'
-export const PLANNED_TOTAL = '8h 5m'
-export const LOGGED_MINUTES = 7 * 60 + 6
-export const PLANNED_MINUTES = 8 * 60 + 5
+export const LOGGED_TOTAL = '10h 26m'
+export const PLANNED_TOTAL = '11h'
+export const LOGGED_MINUTES = 10 * 60 + 26
+export const PLANNED_MINUTES = 11 * 60
 export const TARGET_MINUTES = 8 * 60
 
 export const EVENTS: CalendarEvent[] = [
@@ -99,6 +100,7 @@ export const EVENTS: CalendarEvent[] = [
     title: 'Lunch',
     google: true,
     syncedLight: true,
+    assignWith: 'wed-lunch-logged',
   },
   {
     id: 'thu-lunch',
@@ -136,12 +138,84 @@ export const EVENTS: CalendarEvent[] = [
     title: 'Lunch',
     google: true,
   },
+  {
+    id: 'a1',
+    dayIndex: 0,
+    lane: 'logged',
+    startMin: 9 * 60,
+    durationMin: 150,
+    title: 'Acme homepage design',
+    google: true,
+  },
+  {
+    id: 'a2',
+    dayIndex: 1,
+    lane: 'logged',
+    startMin: 10 * 60,
+    durationMin: 60,
+    title: 'Acme client sync',
+    google: true,
+  },
+  {
+    id: 'a3',
+    dayIndex: 2,
+    lane: 'logged',
+    startMin: 14 * 60,
+    durationMin: 90,
+    title: 'Acme design review',
+    google: true,
+  },
+  {
+    id: 'a4',
+    dayIndex: 3,
+    lane: 'planned',
+    startMin: 9 * 60,
+    durationMin: 150,
+    title: 'Acme dev handoff',
+    google: true,
+  },
+  {
+    id: 'a5',
+    dayIndex: 4,
+    lane: 'planned',
+    startMin: 10 * 60,
+    durationMin: 60,
+    title: 'Acme QA + fixes',
+    google: true,
+  },
+  {
+    id: 'o1',
+    dayIndex: 1,
+    lane: 'logged',
+    startMin: 13 * 60,
+    durationMin: 120,
+    title: 'Landing page build',
+    google: true,
+  },
+  {
+    id: 'o2',
+    dayIndex: 3,
+    lane: 'planned',
+    startMin: 13 * 60,
+    durationMin: 60,
+    title: 'Discovery call',
+    google: true,
+  },
+  {
+    id: 'o3',
+    dayIndex: 3,
+    lane: 'planned',
+    startMin: 15 * 60,
+    durationMin: 90,
+    title: 'Proposal writing',
+    google: true,
+  },
 ]
 
 export const HOURS = Array.from({ length: 24 }, (_, hour) => hour)
 
 export const GRID_HEIGHT = 24 * 60
-export const INITIAL_SCROLL_TOP = 12 * 60
+export const INITIAL_SCROLL_TOP = 9 * 60
 
 export function formatHourLabel(hour: number) {
   const period = hour >= 12 ? 'PM' : 'AM'

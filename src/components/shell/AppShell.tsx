@@ -6,6 +6,7 @@ import { WelcomeModal, WELCOME_MODAL_KEY } from '../onboarding/WelcomeModal'
 import { ProjectModal, PROJECT_MODAL_KEY } from '../onboarding/ProjectModal'
 import { MatchingModal } from '../onboarding/MatchingModal'
 import { ClaimWeekModal } from '../onboarding/ClaimWeekModal'
+import { WeekAssignmentProvider, useWeekAssignment } from '../../context/WeekAssignmentContext'
 
 type ShellModal = 'none' | 'welcome' | 'project' | 'matching' | 'claim'
 
@@ -16,11 +17,20 @@ function initialModal(): ShellModal {
 }
 
 export function AppShell() {
+  return (
+    <WeekAssignmentProvider>
+      <AppShellInner />
+    </WeekAssignmentProvider>
+  )
+}
+
+function AppShellInner() {
   const location = useLocation()
   const navigate = useNavigate()
   const hideTopBar = location.pathname.startsWith('/reports')
   const [modal, setModal] = useState<ShellModal>(initialModal)
   const [companyName, setCompanyName] = useState('your project')
+  const { setAssignedIds } = useWeekAssignment()
   const onTimer = location.pathname === '/timer'
 
   const dismissModals = () => {
@@ -32,6 +42,7 @@ export function AppShell() {
   const openWelcome = () => {
     sessionStorage.setItem(WELCOME_MODAL_KEY, '1')
     sessionStorage.removeItem(PROJECT_MODAL_KEY)
+    setAssignedIds([])
     setModal('welcome')
     if (location.pathname !== '/timer') navigate('/timer')
   }
