@@ -91,10 +91,7 @@ export function ProjectTimeTab({ blocks }: { blocks: ClaimBlock[] }) {
       </aside>
 
       <div className="min-h-0 flex-1 overflow-y-auto p-6 min-[720px]:p-7">
-        <h2 className="text-[12px] font-semibold tracking-wide text-white uppercase">Assigned slots</h2>
-        <p className="mt-1.5 mb-3 text-[12px] text-[#8a8a8a]">
-          Estimated from your calendar · Confirmed once tracked live.
-        </p>
+        <h2 className="mb-3 text-[12px] font-semibold tracking-wide text-white uppercase">Assigned slots</h2>
         <div className="flex flex-col gap-2">
           {blocks.map((block) => {
             const confirmed = block.id === CONFIRMED_ID
@@ -181,7 +178,7 @@ function StatusPill({ confirmed }: { confirmed: boolean }) {
       }`}
     >
       {confirmed ? <Check size={10} strokeWidth={2.4} /> : <Calendar size={10} strokeWidth={2.2} />}
-      {confirmed ? 'Confirmed' : 'Estimated'}
+      {confirmed ? 'Logged' : 'Planned'}
     </span>
   )
 }
