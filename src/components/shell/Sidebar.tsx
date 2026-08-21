@@ -86,7 +86,7 @@ export function Sidebar({ onOpenWelcome }: SidebarProps) {
           className="flex h-16 w-full items-center gap-2 px-4 py-2.5 pr-2 text-left"
         >
           <span className="min-w-0 flex-1 text-[14px] leading-[20px] font-medium text-toggl-text">
-            Mat Meirelles1991's organization
+            Mateus Freelancer
           </span>
           <ChevronDown size={16} className="shrink-0 text-toggl-muted" />
         </button>
