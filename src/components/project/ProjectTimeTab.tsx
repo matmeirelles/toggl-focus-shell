@@ -1,4 +1,4 @@
-import { CLAIM_RATE, formatClaimDuration, formatClaimHours, formatClaimMoney, type ClaimBlock } from '../../data/claimWeek'
+import { CLAIM_RATE, formatClaimDate, formatClaimDuration, formatClaimHours, formatClaimMoney, type ClaimBlock } from '../../data/claimWeek'
 
 export function ProjectTimeTab({ blocks }: { blocks: ClaimBlock[] }) {
   const totalMin = blocks.reduce((sum, block) => sum + block.durationMin, 0)
@@ -60,7 +60,9 @@ export function ProjectTimeTab({ blocks }: { blocks: ClaimBlock[] }) {
             >
               <span className="size-2.5 shrink-0 rounded-full bg-[#F5B301]" />
               <p className="min-w-0 flex-1 truncate text-[14px] font-medium text-white">{block.title}</p>
-              <span className="hidden w-10 shrink-0 text-[13px] text-[#a1a1a1] sm:block">{block.day}</span>
+              <span className="hidden w-[118px] shrink-0 text-right text-[13px] text-[#a1a1a1] sm:block">
+                {formatClaimDate(block.iso)}
+              </span>
               <span className="w-12 shrink-0 text-right text-[13px] tabular-nums text-[#a1a1a1]">
                 {formatClaimDuration(block.durationMin)}
               </span>
