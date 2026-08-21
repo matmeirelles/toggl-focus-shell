@@ -3,7 +3,7 @@ import { ChevronDown, Folder, Plus, X } from 'lucide-react'
 
 export const PROJECT_MODAL_KEY = 'toggl-project-modal'
 
-const EXISTING_CLIENTS = ['Acme', 'Azos', 'Career']
+const EXISTING_CLIENTS = ['Acme Inc.', 'Azos', 'Career']
 const CURRENCIES = ['USD', 'EUR', 'BRL', 'GBP']
 
 const fieldLabel = 'mb-1.5 text-[11px] font-semibold tracking-[0.08em] text-[#8a8a8a] uppercase'
@@ -17,7 +17,7 @@ type ProjectModalProps = {
 
 export function ProjectModal({ onComplete, onDismiss }: ProjectModalProps) {
   const [projectName, setProjectName] = useState('Acme')
-  const [clientQuery, setClientQuery] = useState('Acme')
+  const [clientQuery, setClientQuery] = useState('Acme Inc.')
   const [clients, setClients] = useState(EXISTING_CLIENTS)
   const [clientOpen, setClientOpen] = useState(false)
   const [rate, setRate] = useState('90')

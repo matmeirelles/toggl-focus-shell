@@ -90,10 +90,17 @@ export function GoogleCalendarIcon() {
 export function OutlookIcon() {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="6" fill="#0f6cbd" />
+      <rect width="32" height="32" rx="6" fill="#0F6CBD" />
       <path
-        d="M8 10.5h7.2c2.6 0 4.3 1.5 4.3 3.7 0 1.5-.8 2.6-2.1 3.1 1.5.4 2.6 1.7 2.6 3.4 0 2.4-1.9 4.1-4.8 4.1H8v-14.3Zm3.2 5.7h3.4c1.2 0 1.9-.6 1.9-1.5s-.7-1.4-1.9-1.4h-3.4v2.9Zm0 5.7h3.7c1.3 0 2.1-.6 2.1-1.7s-.8-1.6-2.2-1.6h-3.6v3.3Z"
+        d="M7.5 11h17c.8 0 1.5.7 1.5 1.5v9c0 .8-.7 1.5-1.5 1.5h-17c-.8 0-1.5-.7-1.5-1.5v-9c0-.8.7-1.5 1.5-1.5Z"
         fill="#fff"
+      />
+      <path
+        d="M6.8 12.4 16 18.8l9.2-6.4"
+        fill="none"
+        stroke="#0F6CBD"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
       />
     </svg>
   )
