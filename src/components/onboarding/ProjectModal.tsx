@@ -105,7 +105,7 @@ export function ProjectModal({ onComplete, onDismiss }: ProjectModalProps) {
           <label>
             <div className={fieldLabel}>Name</div>
             <div className={fieldBox}>
-              <Folder size={16} className="mr-2 shrink-0 text-[#e6c46a]" />
+              <Folder size={16} className="mr-2 shrink-0 text-[#F5B301]" />
               <input
                 autoFocus
                 value={projectName}
