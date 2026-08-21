@@ -3,6 +3,7 @@ import { AppShell } from './components/shell/AppShell'
 import { TimerPage } from './pages/TimerPage'
 import { ReportsPage } from './pages/ReportsPage'
 import { ProjectsPage } from './pages/ProjectsPage'
+import { ProjectDetailPage } from './pages/ProjectDetailPage'
 import { TasksPage } from './pages/TasksPage'
 import { OnboardingPage } from './pages/OnboardingPage'
 
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/timer" element={<TimerPage />} />
         <Route path="/reports" element={<ReportsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/tasks" element={<TasksPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

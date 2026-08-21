@@ -4,7 +4,7 @@ import { CLAIM_BLOCKS, CLAIM_RATE, type ClaimBlock } from '../../data/claimWeek'
 import { useWeekAssignment } from '../../context/WeekAssignmentContext'
 
 type Assignment = 'project' | 'none'
-type View = 'claim' | 'done' | 'invoice'
+type View = 'claim' | 'done'
 
 type Row = ClaimBlock & { assignment: Assignment }
 
@@ -34,10 +34,11 @@ function valueOf(min: number) {
 
 type ClaimWeekModalProps = {
   onComplete: () => void
+  onSeeProject: () => void
   onDismiss: () => void
 }
 
-export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
+export function ClaimWeekModal({ onComplete, onSeeProject, onDismiss }: ClaimWeekModalProps) {
   const { setAssignedIds } = useWeekAssignment()
   const [view, setView] = useState<View>('claim')
   const [rows, setRows] = useState<Row[]>(() =>
@@ -119,9 +120,6 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
               : 'w-full flex-1 items-center justify-center px-8 py-12 min-[720px]:px-16'
           }`}
         >
-          {view === 'invoice' ? (
-            <InvoiceStub totalHours={totalHours} totalValue={totalValue} onBack={() => setView('done')} />
-          ) : (
             <ValuePanel
               reviewing={reviewing}
               heroTick={heroTick}
@@ -133,10 +131,9 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
               unassignedValue={unassignedValue}
               barTotal={barTotal}
               onConfirm={() => setView('done')}
-              onInvoice={() => setView('invoice')}
+              onSeeProject={onSeeProject}
               onBack={onComplete}
             />
-          )}
         </aside>
 
         <div
@@ -260,7 +257,7 @@ function ValuePanel({
   unassignedValue,
   barTotal,
   onConfirm,
-  onInvoice,
+  onSeeProject,
   onBack,
 }: {
   reviewing: boolean
@@ -273,7 +270,7 @@ function ValuePanel({
   unassignedValue: string
   barTotal: number
   onConfirm: () => void
-  onInvoice: () => void
+  onSeeProject: () => void
   onBack: () => void
 }) {
   return (
@@ -311,7 +308,7 @@ function ValuePanel({
 
       {!reviewing ? (
         <p className="claim-pop mt-5 text-[15px] leading-6 text-white">
-          Your Acme week, rebuilt from your calendar
+          Your past week
         </p>
       ) : null}
 
@@ -370,10 +367,10 @@ function ValuePanel({
           <>
             <button
               type="button"
-              onClick={onInvoice}
+              onClick={onSeeProject}
               className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
             >
-              Create invoice →
+              See my project
             </button>
             <button
               type="button"
@@ -411,37 +408,6 @@ function BreakdownRow({
       <span className="shrink-0 tabular-nums text-white">
         {formatHours(hours)}h · {formatMoney(valueOf(hours))}
       </span>
-    </div>
-  )
-}
-
-function InvoiceStub({
-  totalHours,
-  totalValue,
-  onBack,
-}: {
-  totalHours: string
-  totalValue: string
-  onBack: () => void
-}) {
-  return (
-    <div className="claim-pop flex w-full max-w-[420px] flex-col items-center text-center">
-      <p className="text-[12px] font-semibold tracking-[0.12em] text-[#8a8a8a] uppercase">
-        Invoice draft
-      </p>
-      <p className="mt-3 text-[22px] font-semibold text-white">INV-1042 · Acme</p>
-      <p className="mt-6 text-[48px] leading-[52px] font-bold tabular-nums text-white">{totalValue}</p>
-      <p className="mt-2 text-[14px] text-[#a1a1a1]">
-        {totalHours}h × $90/hr
-      </p>
-      <p className="mt-6 text-[13px] text-[#a1a1a1]">Saved as a draft. No email sent.</p>
-      <button
-        type="button"
-        onClick={onBack}
-        className="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-[#E57CD8] px-6 text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
-      >
-        Done
-      </button>
     </div>
   )
 }

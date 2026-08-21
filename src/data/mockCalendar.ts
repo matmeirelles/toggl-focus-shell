@@ -249,6 +249,7 @@ export function getNowMarker(now = new Date()) {
 }
 
 export const MOCK_PROJECTS = [
+  { id: 'acme', name: 'Acme', client: 'Acme Inc.', hours: '8h 30m' },
   { id: 'p1', name: 'Toggl video assessment', client: 'Career', hours: '26m' },
   { id: 'p2', name: 'Azos — PM B2C Policyholder', client: 'Azos', hours: '45m' },
   { id: 'p3', name: 'Personal', client: '—', hours: '6h 15m' },

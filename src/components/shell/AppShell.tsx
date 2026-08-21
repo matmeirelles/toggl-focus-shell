@@ -27,7 +27,8 @@ export function AppShell() {
 function AppShellInner() {
   const location = useLocation()
   const navigate = useNavigate()
-  const hideTopBar = location.pathname.startsWith('/reports')
+  const hideTopBar =
+    location.pathname.startsWith('/reports') || /^\/projects\/.+/.test(location.pathname)
   const [modal, setModal] = useState<ShellModal>(initialModal)
   const [companyName, setCompanyName] = useState('your project')
   const { setAssignedIds } = useWeekAssignment()
@@ -82,7 +83,14 @@ function AppShellInner() {
         />
       ) : null}
       {onTimer && modal === 'claim' ? (
-        <ClaimWeekModal onComplete={() => setModal('none')} onDismiss={dismissModals} />
+        <ClaimWeekModal
+          onComplete={() => setModal('none')}
+          onSeeProject={() => {
+            setModal('none')
+            navigate('/projects/acme')
+          }}
+          onDismiss={dismissModals}
+        />
       ) : null}
     </div>
   )

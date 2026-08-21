@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { MOCK_PROJECTS } from '../data/mockCalendar'
 
 export function ProjectsPage() {
@@ -11,16 +12,28 @@ export function ProjectsPage() {
           <span>Client</span>
           <span className="text-right">This week</span>
         </div>
-        {MOCK_PROJECTS.map((project) => (
-          <div
-            key={project.id}
-            className="grid grid-cols-[1fr_160px_88px] border-b border-toggl-stroke px-4 py-3 last:border-b-0"
-          >
-            <span className="text-[14px] font-medium">{project.name}</span>
-            <span className="text-[14px] text-toggl-muted">{project.client}</span>
-            <span className="text-right text-[14px] tabular-nums text-toggl-muted">{project.hours}</span>
-          </div>
-        ))}
+        {MOCK_PROJECTS.map((project) => {
+          const openable = project.id === 'acme'
+          const row = (
+            <div className="grid grid-cols-[1fr_160px_88px] border-b border-toggl-stroke px-4 py-3 last:border-b-0">
+              <span className="flex items-center gap-2 text-[14px] font-medium">
+                {openable ? (
+                  <span className="size-2.5 rounded-full bg-[#F5B301]" />
+                ) : null}
+                {project.name}
+              </span>
+              <span className="text-[14px] text-toggl-muted">{project.client}</span>
+              <span className="text-right text-[14px] tabular-nums text-toggl-muted">{project.hours}</span>
+            </div>
+          )
+          return openable ? (
+            <Link key={project.id} to="/projects/acme" className="block hover:bg-white/5">
+              {row}
+            </Link>
+          ) : (
+            <div key={project.id}>{row}</div>
+          )
+        })}
       </div>
     </main>
   )

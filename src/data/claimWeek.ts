@@ -14,6 +14,29 @@ export type ClaimBlock = {
 
 export const CLAIM_RATE = 90
 
+export function formatClaimHours(min: number) {
+  const hours = min / 60
+  return Number.isInteger(hours) ? String(hours) : hours.toFixed(1)
+}
+
+export function formatClaimMoney(min: number) {
+  return `$${Math.round((min / 60) * CLAIM_RATE).toLocaleString('en-US')}`
+}
+
+export function formatClaimDuration(min: number) {
+  const h = Math.floor(min / 60)
+  const m = min % 60
+  if (h && m) return `${h}h${m}`
+  if (h) return `${h}h`
+  return `${m}m`
+}
+
+export function getProjectBlocks(assignedIds: Set<string>) {
+  const assigned = CLAIM_BLOCKS.filter((block) => assignedIds.has(block.id))
+  if (assigned.length > 0) return assigned
+  return CLAIM_BLOCKS.filter((block) => block.defaultOn)
+}
+
 export const CLAIM_BLOCKS: ClaimBlock[] = [
   { id: 'a1', title: 'Acme homepage design', day: 'Mon', dayIndex: 0, durationMin: 150, startMin: 9 * 60, origin: 'matched', defaultOn: true },
   { id: 'a2', title: 'Acme client sync', day: 'Tue', dayIndex: 1, durationMin: 60, startMin: 10 * 60, origin: 'matched', defaultOn: true },
