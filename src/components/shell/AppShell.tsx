@@ -5,8 +5,9 @@ import { TopBar } from './TopBar'
 import { WelcomeModal, WELCOME_MODAL_KEY } from '../onboarding/WelcomeModal'
 import { ProjectModal, PROJECT_MODAL_KEY } from '../onboarding/ProjectModal'
 import { MatchingModal } from '../onboarding/MatchingModal'
+import { ClaimWeekModal } from '../onboarding/ClaimWeekModal'
 
-type ShellModal = 'none' | 'welcome' | 'project' | 'matching'
+type ShellModal = 'none' | 'welcome' | 'project' | 'matching' | 'claim'
 
 function initialModal(): ShellModal {
   if (sessionStorage.getItem(WELCOME_MODAL_KEY) === '1') return 'welcome'
@@ -65,9 +66,12 @@ export function AppShell() {
       {onTimer && modal === 'matching' ? (
         <MatchingModal
           companyName={companyName}
-          onComplete={() => setModal('none')}
+          onComplete={() => setModal('claim')}
           onDismiss={dismissModals}
         />
+      ) : null}
+      {onTimer && modal === 'claim' ? (
+        <ClaimWeekModal onComplete={() => setModal('none')} onDismiss={dismissModals} />
       ) : null}
     </div>
   )
