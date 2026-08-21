@@ -191,3 +191,19 @@ input {
 .claim-pop {
   animation: claim-pop 0.22s ease-out;
 }
+
+@keyframes claim-hero-tick {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.045);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.claim-hero-tick {
+  animation: claim-hero-tick 0.2s ease-out;
+}

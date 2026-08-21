@@ -44,23 +44,30 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
     })),
   )
   const [skippedOpen, setSkippedOpen] = useState(false)
-  const [chipPulse, setChipPulse] = useState(false)
+  const [heroTick, setHeroTick] = useState(0)
   const prevTotal = useRef<number | null>(null)
+  const reviewing = view === 'claim'
 
   const matchedRows = rows.filter((row) => row.origin === 'matched')
   const otherRows = rows.filter((row) => row.origin === 'other')
   const skippedRows = rows.filter((row) => row.origin === 'skipped')
 
-  const claimedMin = rows
+  const matchedMin = matchedRows
     .filter((row) => row.assignment === 'project')
     .reduce((sum, row) => sum + row.durationMin, 0)
-  const otherMin = otherRows
+  const assignedMin = rows
+    .filter((row) => row.origin !== 'matched' && row.assignment === 'project')
+    .reduce((sum, row) => sum + row.durationMin, 0)
+  const unassignedMin = otherRows
     .filter((row) => row.assignment !== 'project')
     .reduce((sum, row) => sum + row.durationMin, 0)
+  const claimedMin = matchedMin + assignedMin
+  const barTotal = matchedMin + assignedMin + unassignedMin || 1
+
   const totalHours = formatHours(claimedMin)
   const totalValue = formatMoney(valueOf(claimedMin))
-  const otherHours = formatHours(otherMin)
-  const otherValue = formatMoney(valueOf(otherMin))
+  const potentialValue = formatMoney(valueOf(claimedMin + unassignedMin))
+  const unassignedHours = formatHours(unassignedMin)
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -81,9 +88,7 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
     }
     if (prevTotal.current === claimedMin) return
     prevTotal.current = claimedMin
-    setChipPulse(true)
-    const id = window.setTimeout(() => setChipPulse(false), 180)
-    return () => window.clearTimeout(id)
+    setHeroTick((tick) => tick + 1)
   }, [claimedMin])
 
   const setAssigned = (id: string, on: boolean) => {
@@ -92,85 +97,144 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
     )
   }
 
-  const TotalChip = (
-    <div
-      className={`shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold tabular-nums transition-all duration-150 ${
-        chipPulse ? 'scale-105 bg-[#E57CD8] text-[#0F0F0F]' : 'scale-100 bg-[#2e2e2e] text-white'
-      }`}
-    >
-      {totalHours}h · {totalValue}
-    </div>
-  )
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 sm:p-6">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="claim-week-title"
-        className="relative flex max-h-[85vh] w-[min(720px,92vw)] flex-col rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
+        className="relative flex max-h-[85vh] w-[min(900px,94vw)] flex-col overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] shadow-[0_24px_80px_rgb(0_0_0_/_55%)] min-[720px]:h-[min(85vh,760px)] min-[720px]:flex-row"
       >
         {/* TEST: remove dismiss before submission */}
         <button
           type="button"
           aria-label="Dismiss"
           onClick={onDismiss}
-          className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
+          className="absolute top-3 right-3 z-20 flex size-8 items-center justify-center rounded-lg text-[#8a8a8a] hover:bg-white/5 hover:text-white"
         >
           <X size={18} />
         </button>
 
-        {view === 'claim' ? (
-          <>
-            <header className="shrink-0 border-b border-[#2e2e2e] px-8 pt-8 pb-5">
-              <div className="flex items-start justify-between gap-6 pr-6">
-                <div className="min-w-0">
-                  <h1 id="claim-week-title" className="text-[22px] leading-7 font-semibold text-white">
-                    Here&apos;s your Acme week — rebuilt from your calendar
-                  </h1>
-                  <p className="mt-2 text-[14px] leading-5 text-[#a1a1a1]">
-                    We scanned your last 7 days and matched what looks like Acme work. Confirm below — no
-                    timesheet needed.
-                  </p>
-                </div>
-                {TotalChip}
-              </div>
-            </header>
+        <aside
+          className={`flex shrink-0 flex-col bg-[linear-gradient(180deg,#16302c_0%,#1a1a1a_56%)] transition-all duration-300 ease-out ${
+            reviewing
+              ? 'w-full p-6 min-[720px]:w-[340px] min-[720px]:p-7'
+              : 'w-full flex-1 items-center justify-center px-8 py-12 min-[720px]:px-16'
+          }`}
+        >
+          {view === 'invoice' ? (
+            <InvoiceStub
+              totalHours={totalHours}
+              totalValue={totalValue}
+              claimedMin={claimedMin}
+              onBack={() => setView('done')}
+            />
+          ) : (
+            <ValuePanel
+              reviewing={reviewing}
+              heroTick={heroTick}
+              totalValue={totalValue}
+              totalHours={totalHours}
+              matchedMin={matchedMin}
+              assignedMin={assignedMin}
+              unassignedMin={unassignedMin}
+              barTotal={barTotal}
+              potentialValue={potentialValue}
+              unassignedHours={unassignedHours}
+              onConfirm={() => setView('done')}
+              onInvoice={() => setView('invoice')}
+              onBack={onComplete}
+            />
+          )}
+        </aside>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-8 py-5">
-              <section>
-                <div className="mb-3 flex items-center gap-2">
-                  <h2 className="text-[13px] font-semibold tracking-wide text-white uppercase">
-                    Matched to Acme
-                  </h2>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#E57CD8]/15 px-2 py-0.5 text-[11px] font-medium text-[#E57CD8]">
-                    <Sparkles size={11} />
-                    AI matched
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {matchedRows.map((row) => (
-                    <BlockRow
-                      key={row.id}
-                      row={row}
-                      claimed={row.assignment === 'project'}
-                      trailing={
-                        <Toggle
-                          on={row.assignment === 'project'}
-                          onChange={(on) => setAssigned(row.id, on)}
-                        />
-                      }
-                    />
-                  ))}
-                </div>
-              </section>
+        <div
+          className={`min-h-0 border-[#2e2e2e] transition-all duration-300 ease-out min-[720px]:border-l ${
+            reviewing
+              ? 'flex w-full flex-1 flex-col overflow-hidden'
+              : 'pointer-events-none max-h-0 overflow-hidden opacity-0 min-[720px]:max-h-none min-[720px]:w-0 min-[720px]:border-l-0 min-[720px]:opacity-0'
+          }`}
+        >
+          <header className="shrink-0 px-6 pt-6 pr-12 pb-4 min-[720px]:px-7 min-[720px]:pt-7">
+            <h1 id="claim-week-title" className="text-[18px] leading-6 font-semibold text-white">
+              Here&apos;s your Acme week — rebuilt from your calendar
+            </h1>
+            <p className="mt-1.5 text-[13px] leading-5 text-[#a1a1a1]">
+              We scanned your last 7 days and matched what looks like Acme work. Confirm below — no
+              timesheet needed.
+            </p>
+          </header>
 
-              <section className="mt-7">
-                <h2 className="mb-3 text-[13px] font-semibold tracking-wide text-white uppercase">
-                  Other work · assign?
+          <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 min-[720px]:px-7">
+            <section>
+              <div className="mb-3 flex items-center gap-2">
+                <h2 className="text-[12px] font-semibold tracking-wide text-white uppercase">
+                  Matched to Acme
                 </h2>
-                <div className="flex flex-col gap-2">
-                  {otherRows.map((row) => (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#E57CD8]/15 px-2 py-0.5 text-[11px] font-medium text-[#E57CD8]">
+                  <Sparkles size={11} />
+                  AI matched
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {matchedRows.map((row) => (
+                  <BlockRow
+                    key={row.id}
+                    row={row}
+                    claimed={row.assignment === 'project'}
+                    trailing={
+                      <Toggle
+                        on={row.assignment === 'project'}
+                        onChange={(on) => setAssigned(row.id, on)}
+                      />
+                    }
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section className="mt-7">
+              <h2 className="mb-3 text-[12px] font-semibold tracking-wide text-white uppercase">
+                Other work · assign?
+              </h2>
+              <div className="flex flex-col gap-2">
+                {otherRows.map((row) => (
+                  <BlockRow
+                    key={row.id}
+                    row={row}
+                    claimed={row.assignment === 'project'}
+                    trailing={
+                      <Toggle
+                        on={row.assignment === 'project'}
+                        onChange={(on) => setAssigned(row.id, on)}
+                      />
+                    }
+                  />
+                ))}
+              </div>
+              <p className="mt-3 text-[13px] text-[#a1a1a1]">
+                ~{unassignedHours}h · {formatMoney(valueOf(unassignedMin))} potential
+              </p>
+            </section>
+
+            <section className="mt-7 mb-2">
+              <button
+                type="button"
+                onClick={() => setSkippedOpen((open) => !open)}
+                className="flex w-full items-center gap-2 text-left text-[13px] text-[#a1a1a1] transition-colors duration-150 hover:text-white"
+              >
+                <ChevronRight
+                  size={14}
+                  className={`shrink-0 transition-transform duration-150 ${skippedOpen ? 'rotate-90' : ''}`}
+                />
+                <span>
+                  AI skipped {skippedRows.length} personal blocks (
+                  {uniqueTitles(skippedRows) || 'none left'}) · Review
+                </span>
+              </button>
+              {skippedOpen ? (
+                <div className="mt-3 flex flex-col gap-2">
+                  {skippedRows.map((row) => (
                     <BlockRow
                       key={row.id}
                       row={row}
@@ -184,112 +248,203 @@ export function ClaimWeekModal({ onComplete, onDismiss }: ClaimWeekModalProps) {
                     />
                   ))}
                 </div>
-                <p className="mt-3 text-[13px] text-[#a1a1a1]">
-                  ~{otherHours}h · {otherValue} potential
-                </p>
-              </section>
-
-              <section className="mt-7 mb-2">
-                <button
-                  type="button"
-                  onClick={() => setSkippedOpen((open) => !open)}
-                  className="flex w-full items-center gap-2 text-left text-[13px] text-[#a1a1a1] transition-colors duration-150 hover:text-white"
-                >
-                  <ChevronRight
-                    size={14}
-                    className={`shrink-0 transition-transform duration-150 ${skippedOpen ? 'rotate-90' : ''}`}
-                  />
-                  <span>
-                    AI skipped {skippedRows.length} personal blocks (
-                    {uniqueTitles(skippedRows) || 'none left'}) · Review
-                  </span>
-                </button>
-                {skippedOpen ? (
-                  <div className="mt-3 flex flex-col gap-2">
-                    {skippedRows.map((row) => (
-                      <BlockRow
-                        key={row.id}
-                        row={row}
-                        claimed={row.assignment === 'project'}
-                        trailing={
-                          <Toggle
-                            on={row.assignment === 'project'}
-                            onChange={(on) => setAssigned(row.id, on)}
-                          />
-                        }
-                      />
-                    ))}
-                  </div>
-                ) : null}
-              </section>
-            </div>
-
-            <footer className="shrink-0 border-t border-[#2e2e2e] px-8 py-5">
-              <button
-                type="button"
-                onClick={() => setView('done')}
-                className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
-              >
-                Confirm → See my week
-              </button>
-            </footer>
-          </>
-        ) : null}
-
-        {view === 'done' ? (
-          <div className="claim-pop flex flex-col items-center px-10 py-14 text-center">
-            <p className="text-[32px] leading-8 font-bold tabular-nums text-white">
-              {totalHours}h · {totalValue}
-            </p>
-            <p className="mt-4 max-w-[460px] text-[15px] leading-6 text-white">
-              Your Acme week, rebuilt from your calendar — no manual timesheet.
-            </p>
-            <p className="mt-3 max-w-[460px] text-[14px] leading-5 text-[#a1a1a1]">
-              {otherHours}h of other work still unassigned — set up those clients to see your full week.
-            </p>
-            <p className="mt-2 text-[12px] leading-4 text-[#8a8a8a]">
-              Estimated from your calendar. Track live to keep it exact.
-            </p>
-            <div className="mt-8 flex w-full max-w-[420px] flex-col gap-3">
-              <button
-                type="button"
-                onClick={() => setView('invoice')}
-                className="flex h-11 items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
-              >
-                Create invoice →
-              </button>
-              <button
-                type="button"
-                onClick={onComplete}
-                className="flex h-11 items-center justify-center rounded-xl border border-[#2e2e2e] text-[14px] font-semibold text-white transition-colors duration-150 hover:bg-white/5"
-              >
-                Back to my week
-              </button>
-            </div>
+              ) : null}
+            </section>
           </div>
-        ) : null}
+        </div>
+      </div>
+    </div>
+  )
+}
 
-        {view === 'invoice' ? (
-          <div className="claim-pop px-10 py-14 text-center">
-            <p className="text-[12px] font-semibold tracking-[0.12em] text-[#8a8a8a] uppercase">
-              Invoice draft
-            </p>
-            <p className="mt-3 text-[22px] font-semibold text-white">INV-1042 · Acme</p>
-            <p className="mt-6 text-[32px] font-bold tabular-nums text-white">
-              {totalHours}h · {totalValue}
-            </p>
-            <p className="mt-2 text-[14px] text-[#a1a1a1]">{formatHours(claimedMin)}h × $90/h</p>
-            <p className="mt-6 text-[13px] text-[#a1a1a1]">Saved as a draft. No email sent.</p>
+function ValuePanel({
+  reviewing,
+  heroTick,
+  totalValue,
+  totalHours,
+  matchedMin,
+  assignedMin,
+  unassignedMin,
+  barTotal,
+  potentialValue,
+  unassignedHours,
+  onConfirm,
+  onInvoice,
+  onBack,
+}: {
+  reviewing: boolean
+  heroTick: number
+  totalValue: string
+  totalHours: string
+  matchedMin: number
+  assignedMin: number
+  unassignedMin: number
+  barTotal: number
+  potentialValue: string
+  unassignedHours: string
+  onConfirm: () => void
+  onInvoice: () => void
+  onBack: () => void
+}) {
+  return (
+    <div
+      className={`flex h-full min-h-0 w-full flex-col ${reviewing ? '' : 'max-w-[460px] text-center'}`}
+    >
+      <p className="text-[11px] font-semibold tracking-[0.14em] text-[#8a8a8a] uppercase">
+        Last 7 days · Acme
+      </p>
+      <p
+        key={heroTick}
+        className={`mt-3 font-bold tabular-nums text-white ${
+          reviewing ? 'text-[48px] leading-[52px]' : 'text-[64px] leading-[68px]'
+        } ${heroTick > 0 ? 'claim-hero-tick' : ''}`}
+      >
+        {totalValue}
+      </p>
+      <p className={`mt-1 tabular-nums text-[#a1a1a1] ${reviewing ? 'text-[18px]' : 'text-[20px]'}`}>
+        {totalHours}h billable
+      </p>
+
+      {!reviewing ? (
+        <p className="claim-pop mt-5 text-[15px] leading-6 text-white">
+          Your Acme week, rebuilt from your calendar
+        </p>
+      ) : null}
+
+      <div className={`my-5 h-px w-full bg-white/10 ${reviewing ? '' : 'opacity-40'}`} />
+
+      <div className={`flex flex-col gap-2.5 ${reviewing ? '' : 'items-center'}`}>
+        <BreakdownRow
+          tone="teal"
+          filled
+          label="Matched to Acme"
+          hours={matchedMin}
+          centered={!reviewing}
+        />
+        <BreakdownRow
+          tone="pink"
+          filled
+          label="Assigned by you"
+          hours={assignedMin}
+          centered={!reviewing}
+        />
+        <BreakdownRow
+          tone="gray"
+          filled={false}
+          label="Still unassigned"
+          hours={unassignedMin}
+          centered={!reviewing}
+        />
+      </div>
+
+      <div className="mt-4 flex h-1.5 overflow-hidden rounded-full bg-[#2e2e2e]">
+        <span className="bg-[#2DD4BF] transition-all duration-200" style={{ width: `${(matchedMin / barTotal) * 100}%` }} />
+        <span className="bg-[#E57CD8] transition-all duration-200" style={{ width: `${(assignedMin / barTotal) * 100}%` }} />
+        <span className="bg-[#6B7280] transition-all duration-200" style={{ width: `${(unassignedMin / barTotal) * 100}%` }} />
+      </div>
+
+      {reviewing ? (
+        <p className="mt-4 text-[13px] text-[#d4b8ce]">Assign the rest → {potentialValue}</p>
+      ) : (
+        <p className="mt-4 text-[14px] leading-5 text-[#a1a1a1]">
+          {unassignedHours}h of other work still unassigned — set up those clients to see your full week.
+        </p>
+      )}
+
+      <p className="mt-2 text-[12px] leading-4 text-[#8a8a8a]">
+        {reviewing
+          ? 'Rebuilt from your calendar. No timesheet.'
+          : 'Estimated from your calendar. Track live to keep it exact.'}
+      </p>
+
+      <div className={`mt-auto flex flex-col gap-3 ${reviewing ? 'pt-6' : 'pt-8'}`}>
+        {reviewing ? (
+          <button
+            type="button"
+            onClick={onConfirm}
+            className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
+          >
+            Confirm → See my week
+          </button>
+        ) : (
+          <>
             <button
               type="button"
-              onClick={() => setView('done')}
-              className="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-[#E57CD8] px-6 text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
+              onClick={onInvoice}
+              className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E57CD8] text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
             >
-              Done
+              Create invoice →
             </button>
-          </div>
-        ) : null}
+            <button
+              type="button"
+              onClick={onBack}
+              className="flex h-11 w-full items-center justify-center rounded-xl border border-[#2e2e2e] text-[14px] font-semibold text-white transition-colors duration-150 hover:bg-white/5"
+            >
+              Back to my week
+            </button>
+          </>
+        )}
       </div>
+    </div>
+  )
+}
+
+function BreakdownRow({
+  tone,
+  filled,
+  label,
+  hours,
+  centered,
+}: {
+  tone: 'teal' | 'pink' | 'gray'
+  filled: boolean
+  label: string
+  hours: number
+  centered: boolean
+}) {
+  const color = tone === 'teal' ? 'bg-[#2DD4BF]' : tone === 'pink' ? 'bg-[#E57CD8]' : 'bg-[#6B7280]'
+  return (
+    <div className={`flex w-full items-center gap-2 text-[13px] ${centered ? 'max-w-[320px]' : ''}`}>
+      <span
+        className={`size-2 shrink-0 rounded-full ${filled ? color : 'border border-[#6B7280] bg-transparent'}`}
+      />
+      <span className="min-w-0 flex-1 truncate text-[#cfcfcf]">{label}</span>
+      <span className="shrink-0 tabular-nums text-white">
+        {formatHours(hours)}h · {formatMoney(valueOf(hours))}
+      </span>
+    </div>
+  )
+}
+
+function InvoiceStub({
+  totalHours,
+  totalValue,
+  claimedMin,
+  onBack,
+}: {
+  totalHours: string
+  totalValue: string
+  claimedMin: number
+  onBack: () => void
+}) {
+  return (
+    <div className="claim-pop flex w-full max-w-[420px] flex-col items-center text-center">
+      <p className="text-[12px] font-semibold tracking-[0.12em] text-[#8a8a8a] uppercase">
+        Invoice draft
+      </p>
+      <p className="mt-3 text-[22px] font-semibold text-white">INV-1042 · Acme</p>
+      <p className="mt-6 text-[48px] leading-[52px] font-bold tabular-nums text-white">{totalValue}</p>
+      <p className="mt-2 text-[14px] text-[#a1a1a1]">
+        {totalHours}h × $90/h · {formatHours(claimedMin)}h
+      </p>
+      <p className="mt-6 text-[13px] text-[#a1a1a1]">Saved as a draft. No email sent.</p>
+      <button
+        type="button"
+        onClick={onBack}
+        className="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-[#E57CD8] px-6 text-[14px] font-semibold text-[#0F0F0F] transition-opacity duration-150 hover:opacity-90"
+      >
+        Done
+      </button>
     </div>
   )
 }
