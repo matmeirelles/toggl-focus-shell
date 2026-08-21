@@ -39,7 +39,7 @@ export function WelcomeModal({ onComplete }: WelcomeModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="welcome-modal-title"
-        className="relative w-full max-w-[640px] overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-10 shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
+        className="relative w-full max-w-[748px] overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-10 shadow-[0_24px_80px_rgb(0_0_0_/_55%)]"
       >
         <h1
           id="welcome-modal-title"
@@ -49,7 +49,7 @@ export function WelcomeModal({ onComplete }: WelcomeModalProps) {
         </h1>
         <p className="mt-2 text-center text-[14px] text-[#a1a1a1]">Select all that apply</p>
 
-        <div className="mx-auto mt-7 flex w-full max-w-[420px] flex-col gap-2.5">
+        <div className="mx-auto mt-7 flex w-full max-w-[560px] flex-col gap-2.5">
           {USES.map((label) => {
             const active = selected.includes(label)
             return (
@@ -69,7 +69,7 @@ export function WelcomeModal({ onComplete }: WelcomeModalProps) {
           })}
         </div>
 
-        <div className="mx-auto mt-5 w-full max-w-[420px]">
+        <div className="mx-auto mt-5 w-full max-w-[560px]">
           <div className="mb-2 text-[11px] font-semibold tracking-[0.08em] text-[#8a8a8a] uppercase">
             Other
           </div>

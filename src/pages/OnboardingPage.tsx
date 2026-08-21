@@ -95,11 +95,11 @@ export function OnboardingPage() {
       </div>
 
       <div className="flex flex-1 items-center justify-center px-6 py-16">
-        <div className="relative w-full max-w-[760px] overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-12 shadow-[0_24px_80px_rgb(0_0_0_/_45%)]">
+        <div className="relative w-full max-w-[1024px] overflow-hidden rounded-2xl border border-[#2e2e2e] bg-[#1a1a1a] px-10 py-12 shadow-[0_24px_80px_rgb(0_0_0_/_45%)]">
           {step === 0 ? (
             <div className="flex flex-col items-center">
               <h1 className="text-center text-[28px] font-bold text-white">How big is your team?</h1>
-              <div className="mt-8 flex w-full max-w-[420px] flex-col gap-2.5">
+              <div className="mt-8 flex w-full max-w-[520px] flex-col gap-2.5">
                 {TEAM_SIZES.map((size) => (
                   <button
                     key={size}
@@ -118,7 +118,7 @@ export function OnboardingPage() {
                   </button>
                 ))}
               </div>
-              <div className="mt-8 flex w-full max-w-[420px] gap-3">
+              <div className="mt-8 flex w-full max-w-[520px] gap-3">
                 <GhostButton onClick={() => undefined}>Back</GhostButton>
                 <PinkButton
                   disabled={!team}
@@ -138,16 +138,16 @@ export function OnboardingPage() {
           {step === 1 ? (
             <div className="flex flex-col items-center">
               <h1 className="text-center text-[28px] font-bold text-white">Name your organization!</h1>
-              <p className="mt-3 max-w-[460px] text-center text-[15px] leading-6 text-[#a1a1a1]">
+              <p className="mt-3 max-w-[560px] text-center text-[15px] leading-6 text-[#a1a1a1]">
                 This is the home for all your time tracking data. Name it after your company, team, or
                 yourself.
               </p>
               <input
                 value={orgName}
                 onChange={(event) => setOrgName(event.target.value)}
-                className="mt-8 h-12 w-full max-w-[460px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none focus:border-[#E57CD8]"
+                className="mt-8 h-12 w-full max-w-[560px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none focus:border-[#E57CD8]"
               />
-              <p className="mt-2 w-full max-w-[460px] text-left text-[12px] text-[#8a8a8a]">
+              <p className="mt-2 w-full max-w-[560px] text-left text-[12px] text-[#8a8a8a]">
                 This name is just a suggestion, feel free to change it to something else.
               </p>
               <div className="mt-8 flex gap-3">
@@ -165,7 +165,7 @@ export function OnboardingPage() {
               <h1 className="text-center text-[28px] font-bold text-white">
                 What&apos;s your team&apos;s first project?
               </h1>
-              <p className="mt-3 max-w-[460px] text-center text-[15px] leading-6 text-[#a1a1a1]">
+              <p className="mt-3 max-w-[560px] text-center text-[15px] leading-6 text-[#a1a1a1]">
                 Add a project so your team can start tracking right away. You can add more later.
               </p>
               <input
@@ -178,7 +178,7 @@ export function OnboardingPage() {
                   }
                 }}
                 placeholder="e.g. Client project, Marketing campaign"
-                className="mt-8 h-12 w-full max-w-[460px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none placeholder:text-[#8a8a8a] focus:border-[#E57CD8]"
+                className="mt-8 h-12 w-full max-w-[560px] rounded-lg border border-[#5c5c5c] bg-transparent px-4 text-[15px] text-white outline-none placeholder:text-[#8a8a8a] focus:border-[#E57CD8]"
               />
               <div className="mt-8">
                 <PinkButton disabled={!projectName.trim()} onClick={() => setStep(3)}>
@@ -193,10 +193,10 @@ export function OnboardingPage() {
 
           {step === 3 ? (
             <div className="flex flex-col items-center">
-              <h1 className="max-w-[520px] text-center text-[26px] leading-8 font-bold text-white">
+              <h1 className="max-w-[640px] text-center text-[26px] leading-8 font-bold text-white">
                 Sync your team&apos;s calendars for seamless time tracking
               </h1>
-              <div className="mt-8 flex w-full max-w-[520px] flex-col gap-3">
+              <div className="mt-8 flex w-full max-w-[640px] flex-col gap-3">
                 <button
                   type="button"
                   onClick={goAppWithWelcome}
