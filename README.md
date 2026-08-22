@@ -1,27 +1,24 @@
 # Toggl Focus shell
 
-Interactive prototype of Toggl Focus 2.0 (calendar, 5-day split Logged / Planned) plus the assessment feature: claim calendar blocks into a project, then review them on the project Time tab.
+A frontend prototype of [Toggl Focus](https://focus.toggl.com) with a calendar-first way to turn existing time into a billable project.
 
-Frontend only. No backend.
+Open the live demo: **https://matmeirelles.github.io/toggl-focus-shell/**
 
-## Links
+## What it does
 
-- Live prototype: **https://matmeirelles.github.io/toggl-focus-shell/**
-- Repository: **https://github.com/matmeirelles/toggl-focus-shell**
+1. Sync a calendar (mocked) and scan the last 7 days.
+2. Match work blocks to a project (Acme), skip personal time, and confirm billable hours.
+3. Open the project Time tab to see assigned slots, planned vs logged, and a path to invoice.
 
-## Local
+No backend. All data is mocked in the browser.
+
+## Stack
+
+Vite, React, TypeScript, Tailwind CSS. Deployed on GitHub Pages.
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
-
-## Publish
-
-```bash
-git add -A && git commit -m "update prototype" && git push
-```
-
-GitHub Actions deploys to Pages in about one minute.
-
-Design tokens: [`docs/toggl-design-spec.md`](docs/toggl-design-spec.md).
