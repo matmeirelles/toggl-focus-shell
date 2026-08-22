@@ -1,13 +1,13 @@
 # Toggl Focus shell
 
-Clone visual do Toggl Focus 2.0 (Calendar / 5 Days / split Logged–Planned). Sem backend. Sem a feature do assessment — só a casca para sexta.
+Interactive prototype of Toggl Focus 2.0 (calendar, 5-day split Logged / Planned) plus the assessment feature: claim calendar blocks into a project, then review them on the project Time tab.
 
-## Links para o assessment
+Frontend only. No backend.
 
-- Prototype (GitHub Pages, público e permanente): **https://matmeirelles.github.io/toggl-focus-shell/**
-- Repo: **https://github.com/matmeirelles/toggl-focus-shell**
+## Links
 
-Não use URLs `temporary-*.vercel.app` — expiram em 60 min sem login na Vercel.
+- Live prototype: **https://matmeirelles.github.io/toggl-focus-shell/**
+- Repository: **https://github.com/matmeirelles/toggl-focus-shell**
 
 ## Local
 
@@ -16,24 +16,12 @@ npm install
 npm run dev
 ```
 
-## Atualizar o link público
+## Publish
 
 ```bash
 git add -A && git commit -m "update prototype" && git push
 ```
 
-O GitHub Actions publica sozinho em ~1 min.
+GitHub Actions deploys to Pages in about one minute.
 
-## Playbook de sexta
-
-1. Leia o brief duas vezes. Entregue exatamente o que pedem.
-2. Confira no app real (focus.toggl.com) antes de construir em cima de qualquer hipótese.
-3. Não aceite o primeiro fluxo genérico de “review today / categorize time”. O diferencial é um insight que eles não veriam em todo candidato.
-4. A feature entra em [`src/feature/Slot.tsx`](src/feature/Slot.tsx) e monta nos `FEATURE_SLOT`:
-   - TopBar: [`src/components/shell/TopBar.tsx`](src/components/shell/TopBar.tsx)
-   - Calendar: [`src/components/calendar/CalendarGrid.tsx`](src/components/calendar/CalendarGrid.tsx)
-5. No calendário, o slot está sob `pointer-events-none`. A UI da feature precisa de `pointer-events-auto` na raiz.
-6. Botões **dentro da feature** precisam funcionar. O resto do app pode continuar morto.
-7. Push para republicar o GitHub Pages.
-
-Tokens e medidas reais: [`docs/toggl-design-spec.md`](docs/toggl-design-spec.md).
+Design tokens: [`docs/toggl-design-spec.md`](docs/toggl-design-spec.md).
