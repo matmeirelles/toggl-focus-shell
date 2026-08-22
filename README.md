@@ -2,9 +2,10 @@
 
 Clone visual do Toggl Focus 2.0 (Calendar / 5 Days / split Logged–Planned). Sem backend. Sem a feature do assessment — só a casca para sexta.
 
-## Link público (permanente)
+## Links para o assessment
 
-**https://matmeirelles.github.io/toggl-focus-shell/**
+- Prototype (GitHub Pages, público e permanente): **https://matmeirelles.github.io/toggl-focus-shell/**
+- Repo: **https://github.com/matmeirelles/toggl-focus-shell**
 
 Não use URLs `temporary-*.vercel.app` — expiram em 60 min sem login na Vercel.
 
